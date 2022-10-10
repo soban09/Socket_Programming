@@ -1,0 +1,22 @@
+{
+  "name": "socket_programming",
+  "version": "1.0.0",
+  "description": "Socket Programming using Socket io server and client api",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "express": "^4.18.1",
+    "profanity-hindi": "^1.1.0",
+    "profanity-js": "^0.1.4",
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.5.2"
+  }
+}
