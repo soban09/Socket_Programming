@@ -1,31 +1,31 @@
 const { io } = require("socket.io-client");
 const readline = require("readline");
-const {createAccount, signIn} = require('./utils/user');
+const { send } = require("process");
+const chalk = require('chalk')
+const cyan = chalk.cyan;
+const magenta = chalk.magentaBright;
 
 // interface for input and output
 const rl = readline.createInterface({
     input: process.stdin,
-    // output: process.stdout
+    output : process.stdout
 });
 
-// create empty user input
-let userInput = "";
-
 const sendMsg = () => {
-    rl.question("Message : ", function (string) {
-        userInput = string;
-
-        socket.emit("message", userInput)
+    rl.question(cyan("You : "), function (string) {
+        socket.emit("message", string);
         sendMsg();
     });
 }
 
-const socket = io("ws://localhost:3000")
+const socket = io("ws://localhost:5000")
 socket.on("connect", () => {
     console.log(`Connected to Server running on ${socket.io.uri}`);
     console.log(socket.id);
     socket.on("message", (msg) => {
-        console.log(msg);
+        console.log(" - ");
+        console.log(magenta(`Server : ${msg.string}`));
+        sendMsg();
     })
 
     sendMsg();

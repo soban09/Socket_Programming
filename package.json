@@ -14,9 +14,15 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "express": "^4.18.1",
-    "profanity-hindi": "^1.1.0",
-    "profanity-js": "^0.1.4",
     "socket.io": "^4.5.2",
     "socket.io-client": "^4.5.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soban09/Socket_Programming.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soban09/Socket_Programming/issues"
+  },
+  "homepage": "https://github.com/soban09/Socket_Programming#readme"
 }

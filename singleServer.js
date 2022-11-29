@@ -1,26 +1,45 @@
 const express = require('express');
-const fs = require('fs');
 const http = require('http');
 const socketio = require('socket.io');
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 const server = http.createServer(app)
 const io = socketio(server)
 const chalk = require('chalk')
 const warning = chalk.bold.red;
-const success = chalk.blue;
-const profanity = require('profanity-hindi');
+const yellow = chalk.yellow;
+const cyan = chalk.cyan;
+const magenta = chalk.magentaBright;
+const readline = require("readline");
+
+// interface for input and output
+const rl = readline.createInterface({
+    input: process.stdin,
+    output : process.stdout
+});
+
 io.on('connection', (socket) => {
-    console.log(success(`New Client connected with ${socket.id}`));
+
+    console.log(yellow(`New Client connected with ${socket.id}`));
+
+    const sendMsg = () => {
+        rl.question(magenta("You : "), function (string) {
+            socket.emit("message", { id: socket.id, string });
+            sendMsg();
+        });
+    }
+    
     socket.on("join", ({ id, msg }) => {
-        console.log(success(`${id} : ${msg}`));
+        console.log(yellow(`${id} : ${msg}`));
         socket.broadcast.emit("message", `New Client with id ${id} has joined`)
     })
+
     socket.on("message", (msg) => {
-        const censoredText = profanity.maskBadWords(msg);
-        console.log(success(`New message from ${socket.id} : ${censoredText}`));
-        socket.broadcast.emit("message", { id: socket.id, censoredText });
+        console.log(" - ");
+        console.log(cyan(`Client : ${msg}`));
+        sendMsg();
     })
+
     socket.on("disconnect", () => {
         const msg = `Client with id ${socket.id} disconnected`
         console.log(warning(msg))
@@ -28,11 +47,8 @@ io.on('connection', (socket) => {
     })
 })
 
-
 app.get('/', (req, res) => {
-    res.json({
-        "message": "Server Started"
-    })
+    res.json({"message": "Server Started"})
 })
 server.listen(PORT, () => {
     console.log(`Server started at http://localhost:${PORT}`)
